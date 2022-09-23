@@ -1,0 +1,13 @@
+.containerCarousel{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .carouselBody{
+        border: 1px solid red;
+        width: 80%;
+        height: 100%;
+    }
+}
