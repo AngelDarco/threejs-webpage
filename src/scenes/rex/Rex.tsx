@@ -7,21 +7,42 @@ Source: https://sketchfab.com/3d-models/high-detailed-dinosaur-animation-running
 Title: high detailed dinosaur animation (running)
 */
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
+import { Group } from "three";
+import { AnyObject } from "three/examples/jsm/nodes/Nodes.js";
+import { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-export function Rex(props) {
-  const group = useRef();
-  const { nodes, materials, animations } = useGLTF("./src/scenes/rex/rex.glb");
+interface RexProps {
+  anime: number;
+  position: [number, number, number];
+  scale: number;
+  handlerAnimations: () => void;
+}
+interface gltfProps extends GLTF {
+  nodes: AnyObject;
+  materials: AnyObject;
+}
+export function Rex(props: RexProps): JSX.Element {
+  const group = useRef<Group>(new Group());
+  const { nodes, materials, animations } = useGLTF(
+    "./src/scenes/rex/rex.glb"
+  ) as gltfProps;
+
   const { actions, names } = useAnimations(animations, group);
 
   const { anime } = props;
   useEffect(() => {
-    // reset all animation, to can switch between them
-    for (const name in actions) {
-      actions[name].stop();
+    const actionTitle = names[anime];
+    if (actionTitle) {
+      const action = actions[actionTitle];
+      if (action) {
+        action.reset().fadeIn(0.5).play();
+        // make smooth animations switch
+        return () => action.fadeOut(0.5);
+      }
     }
-    actions[names[anime]].reset().fadeIn(1).play();
+    return () => {};
   }, [actions, anime, names]);
 
   return (
@@ -47,6 +68,8 @@ export function Rex(props) {
                       <group name="TRex2_2" />
                     </group>
                     <skinnedMesh
+                      castShadow
+                      receiveShadow={true}
                       name="Object_80"
                       geometry={nodes.Object_80.geometry}
                       material={materials.material_0}
