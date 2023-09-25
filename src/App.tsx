@@ -6,11 +6,11 @@ import Loader from "./components/loader/Loader";
 import { OrbitControls } from "@react-three/drei";
 import Rotation from "./utils/Rotation";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import Texture from "./scenes/rex/Texture";
 
 function App() {
   const [animation, setAnimation] = useState(4);
   const ref = useRef(animation);
-  const bgColor = window.getComputedStyle(document.body).backgroundColor;
 
   /**   * Change the animation in loop.   */
   const handlerAnimations = () => {
@@ -32,12 +32,12 @@ function App() {
   return (
     <>
       <Canvas shadows camera={{ position: [-1, 0.8, 4] }}>
-        <directionalLight intensity={10} castShadow position={[-10, 20, 10]} />
+        <directionalLight intensity={6} castShadow position={[-10, 20, 10]} />
         <ambientLight intensity={1} />
         <pointLight position={[5, 5, 5]} intensity={0.5} />
         <Suspense fallback={<Loader handlerModelLoader={handlerModelLoader} />}>
           <Rex
-            position={[-1.5, -1, 0.2]}
+            position={[-1.5, -0.7, 0.2]}
             scale={1.7}
             handlerAnimations={handlerAnimations}
             anime={animation}
@@ -60,8 +60,7 @@ function App() {
             position={[0, -1, 0]}
             scale={0.8}
           >
-            <circleGeometry args={[5]} />
-            <meshStandardMaterial color={bgColor} />
+            <Texture animation={animation} />
           </mesh>
           <Rotation controls={controlsState ? controlsRef.current : null} />
         </Suspense>
