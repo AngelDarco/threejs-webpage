@@ -19,7 +19,7 @@ export default function Texture({ animation }: { animation: number }) {
   });
 
   return (
-    <mesh ref={sphereRef} position={[-0, 0, -0.2]}>
+    <mesh ref={sphereRef} position={[-0, 0, -0.2]} receiveShadow>
       <circleGeometry args={[10, 100]} />
       <meshStandardMaterial {...texture} />
     </mesh>
