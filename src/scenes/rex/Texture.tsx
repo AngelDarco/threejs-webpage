@@ -1,6 +1,7 @@
 import { useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
+import { LinearSRGBColorSpace } from "three";
 
 export default function Texture({ animation }: { animation: number }) {
   const texture = useTexture({
@@ -20,8 +21,16 @@ export default function Texture({ animation }: { animation: number }) {
 
   return (
     <mesh ref={sphereRef} position={[-0, 0, -0.2]} receiveShadow>
-      <circleGeometry args={[10, 100]} />
-      <meshStandardMaterial {...texture} />
+      <circleGeometry args={[10, 50]} />
+      <meshStandardMaterial
+        {...texture}
+        normalMap-encoding={LinearSRGBColorSpace}
+        transparent
+        displacementScale={0.9}
+        aoMapIntensity={3}
+        roughness={2}
+        metalness={1}
+      />
     </mesh>
   );
 }

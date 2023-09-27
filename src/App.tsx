@@ -8,6 +8,8 @@ import Rotation from "./utils/Rotation";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import Texture from "./scenes/rex/Texture";
 
+import { Environment } from "@react-three/drei";
+
 function App() {
   const [animation, setAnimation] = useState(4);
   const ref = useRef(animation);
@@ -54,14 +56,12 @@ function App() {
             autoRotateSpeed={0.5}
             ref={controlsRef}
           />
-          <mesh
-            rotation-x={-Math.PI / 2}
-            receiveShadow
-            position={[0, -1, 0]}
-            scale={0.8}
-          >
+          <mesh rotation-x={-Math.PI / 2} position={[0, -1, 0]} scale={0.8}>
             <Texture animation={animation} />
           </mesh>
+
+          <Environment preset="city"  />
+
           <Rotation controls={controlsState ? controlsRef.current : null} />
         </Suspense>
       </Canvas>
@@ -70,3 +70,5 @@ function App() {
 }
 
 export default App;
+
+// #915df3  #ab23c0  #445294  #ea95dd  #ffdf78  #d5a41e  #ce3554  #1eb3ed  #23c6bf   #fef373  #bc4880  #b84b73   #ed61f9  #88c300  #d7b60f  #9ff228  #bd36db
